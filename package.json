@@ -1,0 +1,26 @@
+{
+  "name": "axion-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Axion-HQ/AxionScraper.git"
+  },
+  "author": "AxionHQ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Axion-HQ/AxionScraper/issues"
+  },
+  "homepage": "https://github.com/Axion-HQ/AxionScraper#readme",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "chalk": "^5.3.0",
+    "eslint": "^9.9.0",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "nodemon": "^3.1.4",
+    "selenium-webdriver": "^4.23.0"
+  }
+}
