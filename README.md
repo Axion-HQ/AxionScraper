@@ -1,14 +1,14 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="./public/imgs/nautilus-cs-ai-logo.png" alt="Customer CS AI Logo" height="150">
+    <img src="./public/axion-scraper-logo.ong" alt="AxionScraper Logo" height="150">
   </a>
 
 <h3 align="center">
-    Customer Support AI | Track A 
+    Track A | AxionScraper
 </h3>
   <p align="center">
-    Webscraper application built from the ground up using Node.js, Express, Jest, with 
+    Webscraper application built from the ground up using Node.js, Express, Jest, Eslint, among other technologies.
     <br />
     <div align="center">
         <a href="#">Report Bug</a>
@@ -29,9 +29,10 @@
     <img src="https://img.shields.io/badge/-Axios-%234B32C3?style=for-the-badge&logo=axios&logoColor=white" alt="Axios">
     <img src="https://img.shields.io/badge/-Nodemon-%23339933?style=for-the-badge&logo=nodemon&logoColor=white" alt="Nodemon">
 </div>
+<br>
 
 > [!WARNING] 
-> This project is the 3rd project for HeadStarter AI, a fellowship program dedicated to provide opportunities for the next generation. Part of Track A, which is focused on building towards 1000 users after a product launch, and is a Customer Support AI tailored to help business manage their customer support tickets, and provide an overall better customer experience. 
+> This project is a Hackathon submission for Olostep for HeadStarter AI, a fellowship program dedicated to provide opportunities for the next generation. Part of Track A, which is focused on building towards 1000 users after a product launch, this project is a webscraper application built from the ground up using Node.js, Express, Jest, Eslint, among other technologies.
 
 ## Table of Contents
 
