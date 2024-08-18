@@ -41,8 +41,12 @@ const scrapeRequest = async (url, config = axiosConfig) => {
 		console.log(
 			`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
 		);
-		const $ = cheerio.load(response.data);
-		return $.html(); // TODO: Configure to be More Specific!
+
+		const $ = cheerio.load(response.data); 
+		$('script, style, nav, footer, .ads, .sidebar').remove();
+
+		const content = $('article, h1, h2, h3, p').text().replace(/\s\s+/g, ' ').trim();
+		return content;
 
 	} catch (error) {
 		console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
