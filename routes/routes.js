@@ -3,6 +3,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import chalk from "chalk";
+import cheerio, { Cheerio } from "cheerio";
 
 // ./config
 import { scrapeRequest, scrapeRequestFetch, axiosConfig } from "../config/brightdata.config.js";
@@ -24,6 +25,9 @@ router.get("/v1/scrape:query?", async (request, response) => {
     try {
         const data = await scrapeRequest(url);
         response.json({ data });
+
+        // NEXT: FILTER AND PARSE DATA USING CHEERIO 
+        const $ = cheerio.load(data);
 
     } catch (error) {
         console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);

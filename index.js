@@ -3,10 +3,8 @@ import dotenv from "dotenv";
 import chalk from "chalk";
 
 // ./config 
-import * as brightdata from "./config/brightdata.config.js";
 import * as db from "./config/db.js";
 import app from "./config/config.js";
-import { router } from "./routes/routes.js";
 import { sendStatus } from "./lib/response.tmpl.js";
 
 dotenv.config();
