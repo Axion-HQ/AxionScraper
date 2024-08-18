@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import axios from "axios";
 import chalk from "chalk";
 import * as cheerio from "cheerio";
+import fetch from "node-fetch";
+import { error } from "console";
 
 dotenv.config();
 
@@ -26,50 +28,57 @@ const axiosConfig = {
 };
 
 // FIXME: Check If this Function Works!
-const scrapeRequest = (url, config) => {
-	let requestResponse = null; // TODO: Use this to store data, and return. 
+const scrapeRequest = async (url, config = axiosConfig) => {
+	if (!url) {
+		console.log(
+			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL,  or URL is Empty.`
+		);
+		throw new Error("Invalid URL, or URL is Empty.");
+	}
 
-	if (!url) return;
-    if (!config || config === null) {
-        config = axiosConfig;
-    } 
+	try {
+		const response = await axios.get(url, config);
+		console.log(
+			`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
+		);
+		const $ = cheerio.load(response.data);
+		return $.html(); // TODO: Configure to be More Specific!
 
-	return new Promise((resolve, reject) => {
-		axios
-			.get(url, config)
-			.then((response) => {
-				resolve;
-				console.log(
-					`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
-				);
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
-			});
-	});
+	} catch (error) {
+		console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
+		throw new Error(error.message);
+
+	}
 };
 
 // FIXME: Check If this Function Works!
-const scrapeRequestFetch = (url, config) => {
-	if (!url) return;
-	if (!config || config === null) {
-		config = axiosConfig;
+const scrapeRequestFetch = (url, config = axiosConfig) => {
+	if (!url) {
+		console.log(
+			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL,  or URL is Empty.`
+		);
+		throw new Error("Invalid URL, or URL is Empty.");
 	}
 
-	return new Promise((resolve, reject) => {
+	try {
 		fetch(url, config)
 			.then((response) => {
-				resolve;
 				console.log(
 					`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
 				);
-				console.log(response.data);
+				const $ = cheerio.load(response.data);
+				return $.html(); // TODO: Configure to be More Specific!
 			})
 			.catch((error) => {
 				console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
+				throw new Error(error.message);
+
 			});
-	});
+	} catch (error) {
+		console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
+		throw new Error(error.message);
+
+	}
 };
 
-export { brightDataConfig, scrapeRequest, scrapeRequestFetch };
+export { brightDataConfig, axiosConfig, scrapeRequest, scrapeRequestFetch };

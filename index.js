@@ -6,20 +6,26 @@ import chalk from "chalk";
 import * as brightdata from "./config/brightdata.config.js";
 import * as db from "./config/db.js";
 import app from "./config/config.js";
+import { router } from "./routes/routes.js";
+import { sendStatus } from "./lib/response.tmpl.js";
 
 dotenv.config();
 
-app.use()
-
-app.use('/', (request, response) => {
+app.use("/", (request, response) => {
     try {
         db.connectToDatabase();
+        sendStatus(response, 200, "Welcome to AxionScraper API.");
 
     } catch(error) {
         console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
-
+        sendStatus(response, 404, "Something Went Wrong, Please Try Again.");
     }
 })
+
+app.get("*", (request, response) => {
+    sendStatus(response, 404, "Invalid Path. Please Try Again.");
+});
+
 
 app.listen(app.get("port"), () => {
     console.log(`${chalk.black.bold.bgGreen("[ OPEN ]")}: Server is listening on PORT ${app.get("port")}`);

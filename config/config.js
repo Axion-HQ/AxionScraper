@@ -9,6 +9,8 @@ import cors from "cors";
 // const express = require("express");
 // const cors = require("cors");
 
+import { router } from "../routes/routes.js";
+
 // NOTE: Scraping Lib
 import puppeteer from "puppeteer";
 
@@ -20,6 +22,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(path.dirname(""), "../node_modules")));
+
+app.use('/api', router);
 
 
 // NOTE: Setup Puppeteer Pre-Configuration
