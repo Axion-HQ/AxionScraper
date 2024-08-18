@@ -23,7 +23,7 @@ router.get("/v1/scrape:query?", async (request, response) => {
 
     try {
         const data = await scrapeRequest(url);
-        response.json({ data });
+        sendStatus(response, 200, data);
 
     } catch (error) {
         console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);

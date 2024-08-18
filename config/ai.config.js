@@ -32,7 +32,9 @@ const openaiSystemPrompt = {
 
 const apiConfiguration = {
     model: "gpt-3.5-turbo",
-    prompt: "You were not given any data to process, write a prompt telling the user that the data was invalid and to try again.",
+    prompt: `
+        You were not given any data to process, write a prompt telling the user that 
+        the data was invalid and to try again.`,
     maxTokens: 150,
     temperature: 0,
     frequencyPenalty: 0,
@@ -64,6 +66,7 @@ const outputGeneratedResponse = async (data, configuration = apiConfiguration) =
         throw new Error("Data Provided is Empty!");
     }
 
+    checkConfiguration(configuration);
 
     try {
         const response = await openai.chat.completions.create({

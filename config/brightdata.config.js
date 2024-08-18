@@ -5,7 +5,8 @@ import axios from "axios";
 import chalk from "chalk";
 import * as cheerio from "cheerio";
 import fetch from "node-fetch";
-import { error } from "console";
+
+import { outputGeneratedResponse } from "./ai.config.js";
 
 dotenv.config();
 
@@ -41,12 +42,12 @@ const scrapeRequest = async (url, config = axiosConfig) => {
 		console.log(
 			`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
 		);
-
 		const $ = cheerio.load(response.data); 
-		$('script, style, nav, footer, .ads, .sidebar').remove();
+		
+		const unfilteredHTMLContent = $.html().replace(/(\r\n|\n|\r|\t)/gm, "").trim(); // TODO: Configure to be More Specific!
+		const filteredHTMLContent = await outputGeneratedResponse(unfilteredHTMLContent);
 
-		const content = $('article, h1, h2, h3, p').text().replace(/\s\s+/g, ' ').trim();
-		return content;
+		return filteredHTMLContent;
 
 	} catch (error) {
 		console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
@@ -56,7 +57,7 @@ const scrapeRequest = async (url, config = axiosConfig) => {
 };
 
 // FIXME: Check If this Function Works!
-const scrapeRequestFetch = (url, config = axiosConfig) => {
+const scrapeRequestFetch = async (url, config = axiosConfig) => {
 	if (!url) {
 		console.log(
 			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL,  or URL is Empty.`
@@ -70,8 +71,13 @@ const scrapeRequestFetch = (url, config = axiosConfig) => {
 				console.log(
 					`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
 				);
-				const $ = cheerio.load(response.data);
-				return $.html(); // TODO: Configure to be More Specific!
+				const $ = cheerio.load(response.data); 
+		
+				const unfilteredHTMLContent = $.html().replace(/(\r\n|\n|\r|\t)/gm, "").trim(); // TODO: Configure to be More Specific!
+				const filteredHTMLContent = outputGeneratedResponse(unfilteredHTMLContent);
+
+				return filteredHTMLContent;
+
 			})
 			.catch((error) => {
 				console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
