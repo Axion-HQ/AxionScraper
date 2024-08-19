@@ -6,7 +6,7 @@ import chalk from "chalk";
 import * as cheerio from "cheerio";
 import fetch from "node-fetch";
 
-import { outputGeneratedResponse } from "./ai.config.js";
+import { modelTypes, outputGeneratedResponse } from "./ai.config.js";
 
 dotenv.config();
 
@@ -32,20 +32,28 @@ const axiosConfig = {
 const scrapeRequest = async (url, config = axiosConfig) => {
 	if (!url) {
 		console.log(
-			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL,  or URL is Empty.`
+			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL, or URL provided is empty.`
 		);
-		throw new Error("Invalid URL, or URL is Empty.");
+		throw new Error("Invalid URL, or URL provided is empty.");
 	}
 
 	try {
 		const response = await axios.get(url, config);
-		console.log(
-			`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status}`
-		);
+		console.log(`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: ${response.status} - Information processed and scraped!`);
 		const $ = cheerio.load(response.data); 
+
+		// NOTE: Remove ANY Extra or Unnecessary Content from the HTML content.
+		$("*").each((idx, element) => {
+			$(element).text($(element).text().trim());
+		});
 		
 		const unfilteredHTMLContent = $.html().replace(/(\r\n|\n|\r|\t)/gm, "").trim(); // TODO: Configure to be More Specific!
-		const filteredHTMLContent = await outputGeneratedResponse(unfilteredHTMLContent);
+		const filteredHTMLContent = await outputGeneratedResponse(unfilteredHTMLContent, {
+			model: modelTypes.GROQ_MODEL,
+			prompt: unfilteredHTMLContent,
+			maxTokens: 100, 
+			temperature: 1.2,
+		}, modelTypes.GROQ_MODEL);
 
 		return filteredHTMLContent;
 
@@ -60,9 +68,9 @@ const scrapeRequest = async (url, config = axiosConfig) => {
 const scrapeRequestFetch = async (url, config = axiosConfig) => {
 	if (!url) {
 		console.log(
-			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL,  or URL is Empty.`
+			`${chalk.black.bold.bgRed("[ ERROR ]")}: Invalid URL, or URL provided is empty.`
 		);
-		throw new Error("Invalid URL, or URL is Empty.");
+		throw new Error("Invalid URL, or URL provided is empty.");
 	}
 
 	try {
@@ -74,9 +82,9 @@ const scrapeRequestFetch = async (url, config = axiosConfig) => {
 				const $ = cheerio.load(response.data); 
 		
 				const unfilteredHTMLContent = $.html().replace(/(\r\n|\n|\r|\t)/gm, "").trim(); // TODO: Configure to be More Specific!
-				const filteredHTMLContent = outputGeneratedResponse(unfilteredHTMLContent);
+				// const filteredHTMLContent = outputGeneratedResponse(unfilteredHTMLContent);
 
-				return filteredHTMLContent;
+				return unfilteredHTMLContent;
 
 			})
 			.catch((error) => {

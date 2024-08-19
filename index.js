@@ -1,4 +1,3 @@
-import * as config from "./config/config.js";
 import dotenv from "dotenv";
 import chalk from "chalk";
 

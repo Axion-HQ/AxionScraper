@@ -29,13 +29,12 @@ const connectToDatabase = async () => {
         })
 
         connectionStatus = true;
-
         console.log(`${chalk.black.bold.bgGreen("[ SUCCESS ]")}: Connection to MongoDB Database established.`);
+
     } catch (error) {
         console.log(`${chalk.black.bold.bgRed("[ ERROR ]")}: ${error.message}`);
     }
 }
-
 
 export {
     connectToDatabase,

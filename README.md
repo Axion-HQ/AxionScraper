@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="./public/axion-scraper-logo.ong" alt="AxionScraper Logo" height="150">
+    <img src="./axion-scraper-logo.png" alt="AxionScraper Logo" height="150">
   </a>
 
 <h3 align="center">
